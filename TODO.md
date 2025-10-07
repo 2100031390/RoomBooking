@@ -1,9 +1,7 @@
-- [x] Import useEffect and api from utils in BuildingRoomLayout.js
-- [x] Replace staticData with state variables: buildings, buildingFloors, floorRooms
-- [x] Add useEffect to fetch buildings on component mount
-- [x] Update handleBuildingClick to fetch floors for selected building and set buildingFloors
-- [x] Update handleFloorClick to fetch rooms for selected floor and set floorRooms
-- [x] Change selectedBuilding, selectedFloor, selectedRoom to use ids instead of names
-- [x] Update JSX to render buildings, floors, and rooms from state variables
-- [x] Update selection checks in JSX to use ids
-- [x] Update modal and book logic to use ids or names as appropriate
+# TODO: Connect Backend and Frontend for User Management
+
+- [x] Update backend/server.js to add specific CORS origin for frontend
+- [x] Update frontend/src/utils/api.js to use production backend URL
+- [ ] Deploy backend to Render
+- [ ] Deploy frontend to Render
+- [ ] Test manager page to verify users display correctly

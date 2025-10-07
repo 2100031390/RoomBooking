@@ -14,7 +14,10 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://roombooking-frontend-jcro.onrender.com",
+  credentials: true,
+}));
 app.use(express.json());
 
 // Test DB connection on startup
