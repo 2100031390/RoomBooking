@@ -1,1 +1,9 @@
-- [x] Change login redirect from '/booking' to '/user' in Login.js
+- [x] Import useEffect and api from utils in BuildingRoomLayout.js
+- [x] Replace staticData with state variables: buildings, buildingFloors, floorRooms
+- [x] Add useEffect to fetch buildings on component mount
+- [x] Update handleBuildingClick to fetch floors for selected building and set buildingFloors
+- [x] Update handleFloorClick to fetch rooms for selected floor and set floorRooms
+- [x] Change selectedBuilding, selectedFloor, selectedRoom to use ids instead of names
+- [x] Update JSX to render buildings, floors, and rooms from state variables
+- [x] Update selection checks in JSX to use ids
+- [x] Update modal and book logic to use ids or names as appropriate
