@@ -134,11 +134,11 @@ const BuildingRoomLayout = () => {
       return false;
     }
     if (!bookings || bookings.length === 0) return true;
-    // Check if room is booked in the selected date and time slot with approved status
+    // Check if room is booked in the selected date and time slot with approved or pending status
     const slotStart = new Date(`${selectedDate}T${selectedTime}:00`);
     const slotEnd = new Date(slotStart.getTime() + 15 * 60 * 1000); // 15 minutes slot
     for (const booking of bookings) {
-      if (booking.room_id === room.id && booking.status === 'approved') {
+      if (booking.room_id === room.id && (booking.status === 'approved' || booking.status === 'pending')) {
         const bookingStart = new Date(booking.start_time);
         const bookingEnd = new Date(booking.end_time);
         // Check if booking overlaps with selected slot
