@@ -212,7 +212,7 @@ router.get(
       return res.status(400).json({ message: 'Valid date (YYYY-MM-DD) required' });
     }
     try {
-      const query = `SELECT b.*, r.name as room_name, f.floor_number, bu.name as building_name FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN floors f ON r.floor_id = f.id JOIN buildings bu ON f.building_id = bu.id WHERE DATE(b.start_time AT TIME ZONE 'UTC') = $1 AND b.status IN ('approved', 'pending') ORDER BY b.start_time`;
+      const query = `SELECT b.*, r.name as room_name, f.floor_number, bu.name as building_name FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN floors f ON r.floor_id = f.id JOIN buildings bu ON f.building_id = bu.id WHERE DATE(b.start_time AT TIME ZONE 'UTC') = $1 AND b.status = 'approved' ORDER BY b.start_time`;
       const result = await pool.query(query, [date]);
       res.json(result.rows);
     } catch (error) {
