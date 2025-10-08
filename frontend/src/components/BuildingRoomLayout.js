@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 
 const BuildingRoomLayout = () => {
@@ -8,7 +8,7 @@ const BuildingRoomLayout = () => {
   const [selectedFloorId, setSelectedFloorId] = useState(null);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
 
-  // Modal visibility
+  // Modal visibilityand
   const [showModal, setShowModal] = useState(false);
 
   // Date and time selection
@@ -25,6 +25,17 @@ const BuildingRoomLayout = () => {
   const [bookingError, setBookingError] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Set selectedDate and selectedTime from location state if present
+  useEffect(() => {
+    if (location.state?.selectedDate) {
+      setSelectedDate(location.state.selectedDate);
+    }
+    if (location.state?.selectedTime) {
+      setSelectedTime(location.state.selectedTime);
+    }
+  }, [location.state]);
 
   // Fetch buildings, floors, rooms on mount
   useEffect(() => {

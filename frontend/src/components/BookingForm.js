@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { format, addMinutes } from 'date-fns';
 import api from '../utils/api';
@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 const BookingForm = () => {
   const { user } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [buildings, setBuildings] = useState([]);
   const [floors, setFloors] = useState([]);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
@@ -217,6 +218,8 @@ const BookingForm = () => {
       setSuccess('Booking submitted successfully!');
       setSelectedSlots([]);
       setPurpose('');
+      // Navigate back to user home to refresh availability
+      setTimeout(() => navigate('/user', { state: { selectedDate: currentDate, selectedTime: format(selectedSlots[0].startTime, 'HH:mm') } }), 2000);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit');
     } finally {
