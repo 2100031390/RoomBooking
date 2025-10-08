@@ -215,18 +215,14 @@ router.get(
       return res.status(400).json({ message: 'Valid time (HH:mm) required' });
     }
     try {
-      // Get all rooms
-      const roomsResult = await pool.query('SELECT id, name FROM rooms');
-      const rooms = roomsResult.rows;
-
       // Calculate slot start and end (15 min slot)
       const slotStart = new Date(`${date}T${time}:00`);
       const slotEnd = new Date(slotStart.getTime() + 15 * 60 * 1000);
 
-      // Get all bookings overlapping the slot
+      // Get all bookings overlapping the slot on the given date
       const bookingsResult = await pool.query(
-        `SELECT room_id, status, start_time, end_time FROM bookings WHERE status IN ('approved', 'pending') AND (start_time < $2 AND end_time > $1)`,
-        [slotStart, slotEnd]
+        `SELECT room_id, status, start_time, end_time FROM bookings WHERE status IN ('approved', 'pending') AND DATE(start_time) = $3 AND (start_time < $2 AND end_time > $1)`,
+        [slotStart, slotEnd, date]
       );
       const bookings = bookingsResult.rows;
 
