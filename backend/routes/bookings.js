@@ -203,34 +203,21 @@ router.get(
   }
 );
 
-// GET /api/bookings/availability/all - Get booking status for all rooms for a given date and time
+// GET /api/bookings/availability/all - Get all bookings for a given date
 router.get(
   '/availability/all',
   async (req, res) => {
-    const { date, time } = req.query;
+    const { date } = req.query;
     if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
       return res.status(400).json({ message: 'Valid date (YYYY-MM-DD) required' });
     }
-    if (!time || !/^\d{2}:\d{2}$/.test(time)) {
-      return res.status(400).json({ message: 'Valid time (HH:mm) required' });
-    }
     try {
-      // Calculate slot start and end (15 min slot) in UTC
-      const slotStart = new Date(`${date}T${time}:00Z`);
-      const slotEnd = new Date(slotStart.getTime() + 15 * 60 * 1000);
-
-      // Get all bookings overlapping the slot on the given date
-      const bookingsResult = await pool.query(
-        `SELECT room_id, status, start_time, end_time FROM bookings WHERE status IN ('approved', 'pending') AND DATE(start_time) = $3 AND (start_time < $2 AND end_time > $1)`,
-        [slotStart, slotEnd, date]
-      );
-      const bookings = bookingsResult.rows;
-
-      // Return all bookings for the slot
-      res.json(bookings);
+      const query = `SELECT b.*, r.name as room_name, f.floor_number, bu.name as building_name FROM bookings b JOIN rooms r ON b.room_id = r.id JOIN floors f ON r.floor_id = f.id JOIN buildings bu ON f.building_id = bu.id WHERE DATE(b.start_time AT TIME ZONE 'UTC') = $1 AND b.status IN ('approved', 'pending') ORDER BY b.start_time`;
+      const result = await pool.query(query, [date]);
+      res.json(result.rows);
     } catch (error) {
-      console.error('Error fetching all bookings availability:', error);
-      res.status(500).json({ message: 'Server error fetching all bookings availability' });
+      console.error('Error fetching all bookings:', error);
+      res.status(500).json({ message: 'Server error fetching bookings' });
     }
   }
 );
