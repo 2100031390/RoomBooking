@@ -215,8 +215,8 @@ router.get(
       return res.status(400).json({ message: 'Valid time (HH:mm) required' });
     }
     try {
-      // Calculate slot start and end (15 min slot)
-      const slotStart = new Date(`${date}T${time}:00`);
+      // Calculate slot start and end (15 min slot) in UTC
+      const slotStart = new Date(`${date}T${time}:00Z`);
       const slotEnd = new Date(slotStart.getTime() + 15 * 60 * 1000);
 
       // Get all bookings overlapping the slot on the given date
