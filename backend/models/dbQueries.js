@@ -306,8 +306,10 @@ async function updateUser(id, name, email) {
 }
 
 async function deleteUser(id) {
-  const query = 'DELETE FROM users WHERE id = $1';
-  await pool.query(query, [id]);
+  // Delete from users table
+  await pool.query('DELETE FROM users WHERE id = $1', [id]);
+  // Delete from admins table
+  await pool.query('DELETE FROM admins WHERE id = $1', [id]);
 }
 
 // Get single room by ID
