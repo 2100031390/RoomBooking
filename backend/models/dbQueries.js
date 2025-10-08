@@ -175,12 +175,12 @@ async function getFloorAvailability(floorId, dateStr) {
     const availability = [];
 
     for (const room of rooms) {
-      // Get approved and pending bookings overlapping the day
+      // Get approved bookings overlapping the day
       const bookingsResult = await pool.query(
-        `SELECT start_time, end_time 
-         FROM bookings 
-         WHERE room_id = $1 
-         AND status IN ('approved', 'pending') 
+        `SELECT start_time, end_time
+         FROM bookings
+         WHERE room_id = $1
+         AND status = 'approved'
          AND (start_time < $3 AND end_time > $2)
          ORDER BY start_time`,
         [room.id, startOfDay, endOfDay]
