@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
-  origin: "https://roombooking-frontend-jcro.onrender.com",
+  origin: "https://roombooking-frontend-3qpy.onrender.com",
   credentials: true,
 }));
 app.use(express.json());
